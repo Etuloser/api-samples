@@ -69,7 +69,7 @@ def remove_empty_args(args):
   original_args = vars(args)
   good_args = {}
   if original_args is not None:
-    for key, value in original_args.iteritems():
+    for key, value in original_args.items():
       # The channel_id and content_owner arguments are provided as a means
       # of properly setting the "ids" parameter value. However, they should
       # not be included in the API request (since they're not parameters
@@ -89,7 +89,7 @@ def set_ids_parameter(args):
   else:
     args.ids = 'channel==MINE'
   args = remove_empty_args(args)
-  print args
+  print(args)
   return args
 
 def run_analytics_report(youtube_analytics, args):
@@ -115,13 +115,13 @@ def run_analytics_report(youtube_analytics, args):
   #print 'Analytics Data for Channel %s' % channel_id
 
   for column_header in analytics_query_response.get('columnHeaders', []):
-    print '%-20s' % column_header['name'],
-  print
+    print('%-20s' % column_header['name'], end=' ')
+  print()
 
   for row in analytics_query_response.get('rows', []):
     for value in row:
-      print '%-20s' % value,
-    print
+      print('%-20s' % value, end=' ')
+    print()
 
 if __name__ == '__main__':
   now = datetime.now()
@@ -166,5 +166,5 @@ if __name__ == '__main__':
   youtube_analytics = get_authenticated_service()
   try:
     run_analytics_report(youtube_analytics, args)
-  except HttpError, e:
-    print 'An HTTP error %d occurred:\n%s' % (e.resp.status, e.content)
+  except HttpError as e:
+    print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))

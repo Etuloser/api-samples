@@ -47,7 +47,7 @@ def get_authenticated_service():
 def remove_empty_kwargs(**kwargs):
   good_kwargs = {}
   if kwargs is not None:
-    for key, value in kwargs.iteritems():
+    for key, value in kwargs.items():
       if value:
         good_kwargs[key] = value
   return good_kwargs
@@ -62,9 +62,9 @@ def list_report_types(youtube_reporting, **kwargs):
   if 'reportTypes' in results and results['reportTypes']:
     reportTypes = results['reportTypes']
     for reportType in reportTypes:
-      print 'Report type id: %s\n name: %s\n' % (reportType['id'], reportType['name'])
+      print('Report type id: %s\n name: %s\n' % (reportType['id'], reportType['name']))
   else:
-    print 'No report types found'
+    print('No report types found')
     return False
 
   return True
@@ -83,21 +83,21 @@ def create_reporting_job(youtube_reporting, report_type_id, **kwargs):
     **kwargs
   ).execute()
 
-  print ('Reporting job "%s" created for reporting type "%s" at "%s"'
+  print(('Reporting job "%s" created for reporting type "%s" at "%s"'
          % (reporting_job['name'], reporting_job['reportTypeId'],
-             reporting_job['createTime']))
+             reporting_job['createTime'])))
 
 
 # Prompt the user to enter a report type id for the job. Then return the id.
 def get_report_type_id_from_user():
-  report_type_id = raw_input('Please enter the reportTypeId for the job: ')
-  print ('You chose "%s" as the report type Id for the job.' % report_type_id)
+  report_type_id = input('Please enter the reportTypeId for the job: ')
+  print(('You chose "%s" as the report type Id for the job.' % report_type_id))
   return report_type_id
 
 # Prompt the user to set a job name
 def prompt_user_to_set_job_name():
-  job_name = raw_input('Please set a name for the job: ')
-  print ('Great! "%s" is a memorable name for this job.' % job_name)
+  job_name = input('Please set a name for the job: ')
+  print(('Great! "%s" is a memorable name for this job.' % job_name))
   return job_name
 
 
@@ -132,5 +132,5 @@ if __name__ == '__main__':
       create_reporting_job(youtube_reporting,
                            args,
                            onBehalfOfContentOwner=args.content_owner)
-  except HttpError, e:
-    print 'An HTTP error %d occurred:\n%s' % (e.resp.status, e.content)
+  except HttpError as e:
+    print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))

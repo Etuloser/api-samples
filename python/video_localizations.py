@@ -91,17 +91,17 @@ def set_video_localization(youtube, args):
       # matched to the language returned in the metadata.
       if language.lower() == args.language.lower():
         localization = update_result['localizations'][args.language]
-        print ('Updated video \'%s\' localized title to \'%s\''
+        print(('Updated video \'%s\' localized title to \'%s\''
                ' and description to \'%s\' in language \'%s\'' %
                (args.video_id,
                 localization['title'],
                 localization['description'],
-                args.language))
+                args.language)))
         break
 
   if (args.default_language and
       args.default_language == update_result['snippet']['defaultLanguage']):
-    print 'Updated default language to %s' % args.default_language
+    print('Updated default language to %s' % args.default_language)
 
 # Call the API's videos.list method to retrieve an existing video localization.
 # If the localized text is not available in the requested language,
@@ -118,8 +118,8 @@ def get_video_localization(youtube, args):
   # object contains metadata in the default language.
   localized = results['items'][0]['snippet']['localized']
 
-  print ('Video title is \'%s\' and description is \'%s\' in language \'%s\''
-         % (localized['title'], localized['description'], args.language))
+  print(('Video title is \'%s\' and description is \'%s\' in language \'%s\''
+         % (localized['title'], localized['description'], args.language)))
 
 
 # Call the API's videos.list method to list the existing video localizations.
@@ -132,11 +132,11 @@ def list_video_localizations(youtube, args):
   if 'localizations' in results['items'][0]:
     localizations = results['items'][0]['localizations']
     
-    for language, localization in localizations.iteritems():
-      print ('Video title is \'%s\' and description is \'%s\' in language \'%s\''
-             % (localization['title'], localization['description'], language))
+    for language, localization in localizations.items():
+      print(('Video title is \'%s\' and description is \'%s\' in language \'%s\''
+             % (localization['title'], localization['description'], language)))
   else:
-    print 'There aren\'t any localizations for this video yet.'
+    print('There aren\'t any localizations for this video yet.')
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
@@ -173,7 +173,7 @@ if __name__ == '__main__':
       get_video_localization(youtube, args)
     elif args.action == 'list':
       list_video_localizations(youtube, args)
-  except HttpError, e:
-    print 'An HTTP error %d occurred:\n%s' % (e.resp.status, e.content)
+  except HttpError as e:
+    print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
   else:
-    print 'Set and retrieved localized metadata for a video
+    print('Set and retrieved localized metadata for a video.')

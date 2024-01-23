@@ -9,7 +9,7 @@
 #
 # @author Ibrahim Ulukaya
 
-import httplib
+import http.client
 import httplib2
 import os
 import random
@@ -32,10 +32,10 @@ httplib2.RETRIES = 1
 MAX_RETRIES = 10
 
 # Always retry when these exceptions are raised.
-RETRIABLE_EXCEPTIONS = (httplib2.HttpLib2Error, IOError, httplib.NotConnected,
-  httplib.IncompleteRead, httplib.ImproperConnectionState,
-  httplib.CannotSendRequest, httplib.CannotSendHeader,
-  httplib.ResponseNotReady, httplib.BadStatusLine)
+RETRIABLE_EXCEPTIONS = (httplib2.HttpLib2Error, IOError, http.client.NotConnected,
+  http.client.IncompleteRead, http.client.ImproperConnectionState,
+  http.client.CannotSendRequest, http.client.CannotSendHeader,
+  http.client.ResponseNotReady, http.client.BadStatusLine)
 
 # Always retry when an apiclient.errors.HttpError with one of these status
 # codes is raised.
@@ -102,31 +102,31 @@ def resumable_upload(insert_request):
   retry = 0
   while response is None:
     try:
-      print "Uploading file..."
+      print("Uploading file...")
       status, response = insert_request.next_chunk()
       if 'url' in response:
-        print "Banner was successfully uploaded to '%s'." % (
-          response['url'])
+        print("Banner was successfully uploaded to '%s'." % (
+          response['url']))
       else:
         exit("The upload failed with an unexpected response: %s" % response)
-    except HttpError, e:
+    except HttpError as e:
       if e.resp.status in RETRIABLE_STATUS_CODES:
         error = "A retriable HTTP error %d occurred:\n%s" % (e.resp.status,
                                                              e.content)
       else:
         raise
-    except RETRIABLE_EXCEPTIONS, e:
+    except RETRIABLE_EXCEPTIONS as e:
       error = "A retriable error occurred: %s" % e
 
     if error is not None:
-      print error
+      print(error)
       retry += 1
       if retry > MAX_RETRIES:
         exit("No longer attempting to retry.")
 
       max_sleep = 2 ** retry
       sleep_seconds = random.random() * max_sleep
-      print "Sleeping %f seconds and then retrying..." % sleep_seconds
+      print("Sleeping %f seconds and then retrying..." % sleep_seconds)
       time.sleep(sleep_seconds)
 
   return response['url']
@@ -152,7 +152,7 @@ def set_banner(banner_url):
     )).execute()
 
   banner_mobile_url = channels_update_response["brandingSettings"]["image"]["bannerMobileImageUrl"]
-  print "Banner is set to '%s'." % (banner_mobile_url)
+  print("Banner is set to '%s'." % (banner_mobile_url))
 
 if __name__ == "__main__":
   argparser.add_argument("--file", required=True,
@@ -165,7 +165,7 @@ if __name__ == "__main__":
   youtube = get_authenticated_service(args)
   try:
     upload_banner(youtube, args.file)
-  except HttpError, e:
-    print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
+  except HttpError as e:
+    print("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
   else:
-    print "The custom banner was successfully uploaded."
+    print("The custom banner was successfully uploaded.")

@@ -91,17 +91,17 @@ def set_playlist_localization(youtube, args):
       # matched to the language returned in the metadata.
       if language.lower() == args.language.lower():
         localization = update_result['localizations'][args.language]
-        print ('Updated playlist \'%s\' localized title to \'%s\''
+        print(('Updated playlist \'%s\' localized title to \'%s\''
                ' and description to \'%s\' in language \'%s\'' %
                (args.playlist_id,
                 localization['title'],
                 localization['description'],
-                args.language))
+                args.language)))
         break
 
   if (args.default_language and
       args.default_language == update_result['snippet']['defaultLanguage']):
-    print 'Updated default language to %s' % args.default_language
+    print('Updated default language to %s' % args.default_language)
 
 # Call the API's playlists.list method to retrieve an existing playlist localization.
 # If the localized text is not available in the requested language,
@@ -118,8 +118,8 @@ def get_playlist_localization(youtube, args):
   # object will contain metadata in the default language.
   localized = results['items'][0]['snippet']['localized']
 
-  print ('Playlist title is "%s" and description is "%s" in language "%s"'
-         % (localized['title'], localized['description'], args.language))
+  print(('Playlist title is "%s" and description is "%s" in language "%s"'
+         % (localized['title'], localized['description'], args.language)))
 
 
 # Call the API's playlists.list method to list existing localizations
@@ -133,11 +133,11 @@ def list_playlist_localizations(youtube, args):
   if 'localizations' in results['items'][0]:
     localizations = results['items'][0]['localizations']
 
-    for language, localization in localizations.iteritems():
-      print ('Playlist title is "%s" and description is "%s" in language "%s"'
-             % (localization['title'], localization['description'], language))
+    for language, localization in localizations.items():
+      print(('Playlist title is "%s" and description is "%s" in language "%s"'
+             % (localization['title'], localization['description'], language)))
   else:
-    print 'There aren\'t any localizations for this playlist yet.'
+    print('There aren\'t any localizations for this playlist yet.')
 
 
 if __name__ == '__main__':
@@ -173,5 +173,5 @@ if __name__ == '__main__':
       get_playlist_localization(youtube, args)
     elif args.action == 'list':
       list_playlist_localizations(youtube, args)
-  except HttpError, e:
-    print 'An HTTP error %d occurred:\n%s' % (e.resp.status, e.content)
+  except HttpError as e:
+    print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))

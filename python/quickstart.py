@@ -29,10 +29,10 @@ def channels_list_by_username(service, **kwargs):
     **kwargs
   ).execute()
   
-  print('This channel\'s ID is %s. Its title is %s, and it has %s views.' %
+  print(('This channel\'s ID is %s. Its title is %s, and it has %s views.' %
        (results['items'][0]['id'],
         results['items'][0]['snippet']['title'],
-        results['items'][0]['statistics']['viewCount']))
+        results['items'][0]['statistics']['viewCount'])))
 
 if __name__ == '__main__':
   # When running locally, disable OAuthlib's HTTPs verification. When

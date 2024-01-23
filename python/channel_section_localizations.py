@@ -90,13 +90,13 @@ def set_channel_section_localization(youtube, args):
       # matched to the language returned in the metadata.
       if language.lower() == args.language.lower():
         localization = update_result['localizations'][args.language]
-        print ('Updated channel section %s localized title to %s in \'%s\'.' %
-               (args.channel_section_id, localization['title'], args.language))
+        print(('Updated channel section %s localized title to %s in \'%s\'.' %
+               (args.channel_section_id, localization['title'], args.language)))
         break
 
   if (args.default_language and
       args.default_language == update_result['snippet']['defaultLanguage']):
-    print 'Updated default language to %s.' % args.default_language
+    print('Updated default language to %s.' % args.default_language)
 
 # Call the API's channelSections.list method to retrieve an existing channel section localization.
 # If the localized text is not available in the requested language,
@@ -113,8 +113,8 @@ def get_channel_section_localization(youtube, args):
   # object will contain metadata in the default language.
   localized = results['items'][0]['snippet']['localized']
 
-  print('The channel section\'s title is \'%s\' in language \'%s\'.' %
-        (localized['title'], language))
+  print(('The channel section\'s title is \'%s\' in language \'%s\'.' %
+        (localized['title'], language)))
 
 # Call the API's channelSections.list method to list all existing localizations
 # for the channel section.
@@ -127,11 +127,11 @@ def list_channel_section_localizations(youtube, args):
   if 'localizations' in results['items'][0]:
     localizations = results['items'][0]['localizations']
 
-    for language, localization in localizations.iteritems():
-      print('The channel section title is \'%s\' in language \'%s\'.' %
-            (localization['title'], language))
+    for language, localization in localizations.items():
+      print(('The channel section title is \'%s\' in language \'%s\'.' %
+            (localization['title'], language)))
   else:
-    print 'This channel section does not have localizations yet.'
+    print('This channel section does not have localizations yet.')
 
 # Call the API's channelSections.list method to list localizations for all
 # channel sections in the authorizing user\'s channel. This function might
@@ -147,17 +147,17 @@ def list_my_channel_section_localizations(youtube, args):
 
   for i in range(0, len(results['items'])):
     item = results['items'][i]
-    print str(item['snippet']['position']) + ':'
-    print '    ID: ' + item['id']
-    print '    Type: ' + item['snippet']['type']
+    print(str(item['snippet']['position']) + ':')
+    print('    ID: ' + item['id'])
+    print('    Type: ' + item['snippet']['type'])
     if ('title' in item['snippet'] and item['snippet']['title']):
-      print '    Title: ' + str(item['snippet']['title'])
+      print('    Title: ' + str(item['snippet']['title']))
 
     if 'localizations' in results['items'][i]:
       localizations = results['items'][i]['localizations']
       print('    Localized titles by language:')
-      for language, localization in localizations.iteritems():
-        print('       ' + language + ': ' + localization['title'])
+      for language, localization in localizations.items():
+        print(('       ' + language + ': ' + localization['title']))
     else:
       print('    No localizations. :(\n')
 
@@ -209,5 +209,5 @@ if __name__ == '__main__':
         list_channel_section_localizations(youtube, args)
     else:
       exit('Please specify a valid action using the --action= parameter.')
-  except HttpError, e:
-    print 'An HTTP error %d occurred:\n%s' % (e.resp.status, e.content)
+  except HttpError as e:
+    print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
