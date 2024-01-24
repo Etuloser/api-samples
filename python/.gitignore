@@ -1,3 +1,7 @@
 .vscode/
 venv/
 .env
+client_secrets.json
+.pytest_cache/
+tokens/*.json
+__pycache__/
